@@ -160,22 +160,36 @@ $impacts = [
 // =========================================
 $element=0;
 $datos=0;
-function mapaOriginal($mapa,$element,$elemento){
+function mapaOriginal($mapa) {
     foreach ($mapa as $elemento) {
         foreach ($elemento as $element) {
             echo $element;
         }
         echo "<br>";
     }
-    
-}
-echo mapaOriginal($capraMajoris,$element,$elemento);//este es la solucion del primero angel acuerdate para organizarlo 
-function mapaImpactos($mapa,$elemCaidos){
-    
-
 }
 
+function quesificando($mapa, $impactos) {
+    foreach ($impactos as $impacto) { 
+        $fila = $impacto[0];
+        $columna = $impacto[1];
+        
+        if ($mapa[$fila][$columna] === "C") {
+            $mapa[$fila][$columna] = "Q";
+        }
+    }
+    return $mapa;
+}
 
+
+echo "Mapa original:";
+mapaOriginal($capraMajoris);
+
+$mapaModificado = quesificando($capraMajoris, $impacts);
+
+echo "Zonas afectadas (quesificadas):<br>";
+
+mapaOriginal($mapaModificado);
 // =========================================
 
 
