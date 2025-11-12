@@ -158,14 +158,6 @@ $impacts = [
 
 
 // =========================================
-$cabras=3000;
-$desodorante=10 /1000;
-$limpiarRocoso=75000;
-$limpiarHabitadas=250000;
-$precioPorKg = 7;
-$totalDePeces=1000*1000;
-
-
 function mostrarMapa($mapa) {
     foreach ($mapa as $fila) {
         foreach ($fila as $celda) {
@@ -255,7 +247,7 @@ function atmosferaAfectada($mapa){
     $atmosferaAfectada=0;
     foreach ($mapa as $fila) {
         foreach ($fila as $celda) {
-            if ($celda == "S"){
+            if ($celda ==="S"){
                  $atmosferaAfectada++;
         }
     }
@@ -263,22 +255,42 @@ function atmosferaAfectada($mapa){
 }
 return $atmosferaAfectada;
 }
+$cabras=3000;
+$desodorante=10 /1000;
+$limpiarRocoso=75000;
+$limpiarHabitadas=250000;
+$precioPorKg = 7;
+$totalDePeces=1000*1000;
+
 
 $mapaQuesificado = quesificando($capraMajoris, $impacts);
+
+
+
 $cabrasAfectadas = afectados($mapaQuesificado);
+
+
+
 $totalCabrasAfectadas = $cabrasAfectadas * $cabras;
-$litrosDesodorante = $totalCabrasAfectadas * $desodorante; 
+$litrosDesodorante = $totalCabrasAfectadas * $desodorante;
+
+
+
 $zonasAfectadas= danosTotales($mapaQuesificado,$impacts);
+
+
+
 $limpiar=estimacionesCoste($zonasAfectadas);
 $limpiezaDeCabras=$cabrasAfectadas * $limpiarHabitadas;
 $limpiarTerrenoRocoso=$limpiar * $limpiarRocoso;
-
 $totalDeLimpieza=$limpiezaDeCabras + $limpiarTerrenoRocoso;
+
+
+
 $presente= atmosferapresente($zonasAfectadas);
-$atmAfectada = atmosferaAfectada($zonasAfectadas); 
-$kgPorCelda = $totalDePeces / $atmAfectada; 
-$porcentajeAfectado = $atmAfectada / $presente; 
-$recaudacionSolidaria = $totalDePeces * $precioPorKg * $porcentajeAfectado;
+$atmAfectada = atmosferaAfectada($zonasAfectadas);
+$repLosCorrales=$atmAfectada*$totalDePeces*$precioPorKg/$presente; 
+$daniosNetos = $totalDeLimpieza - $repLosCorrales;
 
 
 echo "Mapa original:<br>";
@@ -298,8 +310,9 @@ mostrarMapa($zonasAfectadas);
 echo "<br>";
 echo "coste total de la limpieza:".number_format($totalDeLimpieza, 0, ',', '.')."<br>";
 echo "<br>";
-echo " Recaudación ONG Cocineros Cósmicos: " . number_format($recaudacionSolidaria, 0, ',', '.') . " €<br>";
-echo " Daños netos estimados: " . number_format($totalDeLimpieza, 0, ',', '.') . " €<br>";
+echo " Recaudación ONG Cocineros Cósmicos: " . number_format($repLosCorrales, 0, ',', '.') . " €<br>";
+echo "Daños netos estimados: " . number_format($daniosNetos, 0, ',', '.') . " €<br>";
+//echo " Daños netos estimados: " . number_format($totalDeLimpieza, 0, ',', '.') . " €<br>";
 
 // =========================================
 
